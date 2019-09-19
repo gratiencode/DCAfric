@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+  <persistence-unit name="dds_web" transaction-type="JTA">
+    <jta-data-source>jdbc/env/districom</jta-data-source>
+    <class>entities.Agents</class>
+    <class>entities.Client</class>
+    <class>entities.Commande</class>
+    <class>entities.Consommer</class>
+    <class>entities.Kiosque</class>
+    <class>entities.Materiel</class>
+    <class>entities.Obtenir</class>
+    <class>entities.Parametre</class>
+    <class>entities.Posseder</class>
+    <class>entities.Produit</class>
+    <class>entities.Recquisitionner</class>
+    <class>entities.Service</class>
+    <class>entities.Vente</class>
+    <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    <validation-mode>NONE</validation-mode>
+    <properties>
+    </properties>
+  </persistence-unit>
+</persistence>

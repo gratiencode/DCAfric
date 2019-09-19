@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>DCAfric GeoMonitoring</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="https://api.mapbox.com/mapbox-gl-js/v0.53.0/mapbox-gl.js"></script>
+        <link href="https://api.mapbox.com/mapbox-gl-js/v0.53.0/mapbox-gl.css" rel="stylesheet"/>
+        <style>
+            #map{height: 100%;}
+            html, body{
+                height: 100%;
+                margin: 0;
+                padding: 0;
+            }
+            #floating-panel{
+                position: absolute;
+                top: 10px;
+                left: 1%;
+                z-index: 5;
+                background-color: #fff;
+                color: #09f;
+                border: 1px solid #999;
+                border-radius: 25px;
+                padding: 6px;
+                text-align: center;
+
+            }
+        </style>
+
+    </head>
+    <body>
+        <div id="floating-panel">
+            <b>Suivre un seul kiosque</b>
+            <input type="text" id="start1" placeholder="Numero du kiosque">
+        </div>
+        <div id="map" style="width: 100%; height: 300%;"></div>
+        <!--<script src="http://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>-->
+        <script >
+            //refresh();
+            mapboxgl.accessToken = 'pk.eyJ1IjoiZ3JhdGlhcyIsImEiOiJjanN3c281bTEwYW94NDNvc3d3cmFlMGduIn0.Sws-jypGGAqF2dmt61vUfw';
+            var map = new mapboxgl.Map({
+                container: 'map',
+                style: 'mapbox://styles/mapbox/satellite-streets-v9',
+                zoom: 9,
+                center: [29.21979979738836, -1.6989503719597576]
+            });
+            map.addControl(new mapboxgl.NavigationControl());
+            map.on('load', function () {
+                setTimeout(refresh
+                        , 10000);
+            });
+            function refresh() {
+                console.log("okk");
+                var markerStore={};
+                var evs = new EventSource("http://127.0.0.1:8087/services/providing/realtime/souscription");
+                evs.addEventListener("locationUpdate", function (event) {
+                    console.log("Result " + event.data);
+                    
+                    var rst = JSON.parse(event.data);
+                    var liste=rst.datas;
+                    
+                    for(var i=0, len=liste.length; i<len; i++){
+                        if(markerStore.hasOwnProperty(liste[i].id)){
+                            markerStore[liste[i].id].setLngLat([liste[i].longitude, liste[i].latitude]);
+                        }else{
+                            var marker=new mapboxgl.Marker()
+                                                    .setLngLat([liste[i].longitude, liste[i].latitude])
+                                                    .setPopup(new mapboxgl.Popup()
+                                                            .setHTML('<div style="padding:0.3rem 0.3rem 0;text-align:center;">'
+                                                                    + '<h2 style="font-size:16px;margin:0 0 0.3rem;">' + liste[i].id + '</h2>'
+                                                                    + '<p style="font-size:12px;margin:0;">Agent : ' + liste[i].nom+ '</p></div>'))
+                                                    .addTo(map);
+                                            markerStore[liste[i].id]=marker;
+                        }
+                    }
+                    
+//                    liste.forEach(function(element){
+//                        
+//                    });
+//                    
+//                    
+//                    
+//                    
+//                    var geojson = {
+//                        "type": "FeatureCollection",
+//                        "features": [
+//                            {
+//                                "type": "Feature",
+//                                "properties": {
+//                                    "title": element.id,
+//                                    "description": element.nom,
+//                                    "iconSize": [80, 80]
+//                                },
+//                                "geometry": {
+//                                    "type": "Point",
+//                                    "coordinates": [element.longitude, element.latitude]
+//                                }
+//
+//                            }
+//                        ]
+//                    };
+//
+//                    var src = {
+//                        type: 'geojson',
+//                        data: geojson
+//                    };
+//
+//                    if (map.getSource(element.id)) {
+//                        map.getSource(element.id).setData(geojson);
+//                    } else {
+//                        map.addSource(element.id, src);
+//                        map.getSource(element.id).setData(geojson);
+//
+//                    }
+//
+//                    if (map.getLayer(element.id)) {
+//
+//                    } else {
+//                        map.addLayer({
+//                            "id": element.id,
+//                            "type": "symbol",
+//                            "source": element.id,
+//                            "layout": {
+//                                "icon-image": "rocket-15"
+//                            }
+//                        });
+//                    }
+                }, false);
+            }
+
+        </script>
+        <!--<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBFV1pN8YxsinLJn3TMXQgl2foqI8MZEJ8&callback=initMap">-->
+        <!--</script>-->   
+
+    </body>
+</html>

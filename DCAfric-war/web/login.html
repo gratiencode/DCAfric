@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>ExPRESSOL-Login</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="./styles.css" rel="stylesheet"/>
+        <!--        <link href="./bootstrap.css" rel="stylesheet"/>-->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <style>
+            #titre{
+                text-align: center;
+                color: #fff;
+                font-size: 20px;
+
+            }
+        </style>
+
+    </head>
+    <body>
+        <script>
+            function login(u, p) {
+
+                $.ajax({
+                    type: 'GET',
+                    url: "http://8a370932a26a.sn.mynetname.net:8087/services/providing/agents/agent/" + u.value + "/" + p.value + "/show",
+                    dataType: "json",
+                    success: function (data) {
+                        if (data.roleAgent === "admin") {
+                            window.location.href = "./html/index.html?agentId="+ncodeURIComponent(data.id)+"&prenom="+ncodeURIComponent(data.prenom)+"&nom="+ncodeURIComponent(data.nom);
+                        } else if (data.roleAgent === "agent") {
+                            window.location.href = "./html/index.html?agentId="+ncodeURIComponent(data.id)+"&prenom="+ncodeURIComponent(data.prenom)+"&nom="+ncodeURIComponent(data.nom);
+
+                        }
+                    },
+                    error: function () {
+                        $.ajax({
+                            type: 'GET',
+                            url: "http://127.0.0.1:8087/services/providing/agents/agent/" + u.value + "/" + p.value + "/show",
+                            dataType: "json",
+                            success: function (data) {
+                                if (data.roleAgent === "admin") {                                  
+                                    window.location.href = "./html/index.html?agentId="+encodeURIComponent(data.id)+"&prenom="+encodeURIComponent(data.prenom)+"&nom="+encodeURIComponent(data.nom);
+                                } else if (data.roleAgent === "agent") {
+                                    window.location.href = "./html/index.html?agentId="+encodeURIComponent(data.id)+"&prenom="+encodeURIComponent(data.prenom)+"&nom="+ncodeURIComponent(data.nom);
+
+                                }
+                            },
+                            error: function () {
+                                alert("Erreur : utilisateur ou mot de passe incorrect");
+                            }
+                        });
+                    }
+                });
+//                console.log(u.value+"   "+p.value);
+            }
+
+        </script>
+        <div id="titre">
+            <h1><b>ExPRESSOL</b></h1>
+        </div>
+        <div id="contenu"></div>
+
+        <div  id="auth" class="login">
+            <h1>Login</h1>
+            <form  action="javascript:login(u,p)"  method="post">
+                <input type="text" name="u" id="u" placeholder="Username" required="required" />
+                <input type="password" name="p" id="p" placeholder="Password" required="required" />
+                <button type="submit" class="btn btn-primary btn-block btn-large">Connexion</button>
+            </form>
+        </div>
+
+        <!-- Central Modal Medium Success-->
+
+    </body>
+</html>
