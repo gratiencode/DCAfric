@@ -28,7 +28,7 @@ and open the template in the editor.
 
                 $.ajax({
                     type: 'GET',
-                    url: "http://8a370932a26a.sn.mynetname.net:8087/services/providing/agents/agent/" + u.value + "/" + p.value + "/show",
+                    url: "http://127.0.0.1:8087/services/providing/agents/agent/" + u.value + "/" + p.value + "/show",
                     dataType: "json",
                     success: function (data) {
                         if (data.roleAgent === "admin") {
@@ -38,23 +38,23 @@ and open the template in the editor.
 
                         }
                     },
-                    error: function (u,p) {
-                        $.ajax({
-                            type: 'GET',
-                            url: "http://127.0.0.1:8087/services/providing/agents/agent/" + u.value + "/" + p.value + "/show",
-                            dataType: "json",
-                            success: function (data) {
-                                if (data.roleAgent === "admin") {                                  
-                                    window.location.href = "./html/index.html?agentId="+encodeURIComponent(data.id)+"&prenom="+encodeURIComponent(data.prenom)+"&nom="+encodeURIComponent(data.nom);
-                                } else if (data.roleAgent === "agent") {
-                                    window.location.href = "./html/index.html?agentId="+encodeURIComponent(data.id)+"&prenom="+encodeURIComponent(data.prenom)+"&nom="+ncodeURIComponent(data.nom);
-
-                                }
-                            },
-                            error: function () {
+                    error: function () {
+//                        $.ajax({8a370932a26a.sn.mynetname.net
+//                            type: 'GET',
+//                            url: "http://127.0.0.1:8087/services/providing/agents/agent/" + u.value + "/" + p.value + "/show",
+//                            dataType: "json",
+//                            success: function (data) {
+//                                if (data.roleAgent === "admin") {                                  
+//                                    window.location.href = "./html/index.html?agentId="+encodeURIComponent(data.id)+"&prenom="+encodeURIComponent(data.prenom)+"&nom="+encodeURIComponent(data.nom);
+//                                } else if (data.roleAgent === "agent") {
+//                                    window.location.href = "./html/index.html?agentId="+encodeURIComponent(data.id)+"&prenom="+encodeURIComponent(data.prenom)+"&nom="+ncodeURIComponent(data.nom);
+//
+//                                }
+//                            },
+//                            error: function () {
                                 alert("Erreur : utilisateur ou mot de passe incorrect");
-                            }
-                        });
+//                            }
+//                        });
                     }
                 });
 //                console.log(u.value+"   "+p.value);
