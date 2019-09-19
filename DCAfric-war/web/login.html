@@ -38,7 +38,7 @@ and open the template in the editor.
 
                         }
                     },
-                    error: function () {
+                    error: function (u,p) {
                         $.ajax({
                             type: 'GET',
                             url: "http://127.0.0.1:8087/services/providing/agents/agent/" + u.value + "/" + p.value + "/show",
