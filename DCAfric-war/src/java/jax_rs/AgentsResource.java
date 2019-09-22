@@ -11,12 +11,15 @@ import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.json.JsonObject;
+import javax.ws.rs.Consumes;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.core.Response;
 import jax_binding.AgentBinder;
 
 /**
@@ -55,6 +58,19 @@ public class AgentsResource {
     public JsonObject getJson() {
         //TODO return proper representation object
         throw new UnsupportedOperationException();
+    }
+    
+    @POST
+    @Path("u5/expso1/newuser")
+    @Produces("application/json")
+    @Consumes("application/json")
+    public Response signUpNewUser(Agents agent){
+        if(agent!=null){
+            agent.setRoleAgent("Client");
+            asvc.createAgent(agent);
+        }
+        agent.setAgentPassword("");
+      return Response.ok(agent).build();
     }
 
     /**
