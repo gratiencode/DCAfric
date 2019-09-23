@@ -7,6 +7,7 @@ package jax_rs;
 
 import cdi_impl.AgentService;
 import entities.Agents;
+import java.text.ParseException;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -21,6 +22,7 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.core.Response;
 import jax_binding.AgentBinder;
+import util.Constants;
 
 /**
  * REST Web Service
@@ -64,13 +66,18 @@ public class AgentsResource {
     @Path("u5/expso1/newuser")
     @Produces("application/json")
     @Consumes("application/json")
-    public Response signUpNewUser(Agents agent){
+    public Response signUpNewUser(Agents agent) throws ParseException{
+        Agents ag = null;
         if(agent!=null){
+            String password=agent.getAgentPassword().split(":")[0];
+            String dateNs=agent.getAgentPassword().split(":")[1];
+            agent.setDateNaisse(Constants.dateFormat.parse(dateNs));
+            agent.setAdresse(password); 
             agent.setRoleAgent("Client");
-            asvc.createAgent(agent);
+            ag=asvc.createAgent(agent);
         }
-       
-      return Response.ok(agent).build();
+       ag.setAgentPassword("");
+      return Response.ok(ag).build();
     }
 
     /**
