@@ -73,7 +73,7 @@ public class AgentsResource {
             String password = agent.getAgentPassword().split(":")[0];
             String dateNs = agent.getAgentPassword().split(":")[1];
             agent.setDateNaisse(Constants.dateFormat.parse(dateNs + " 00:00:00"));
-            agent.setAdresse(password);
+            agent.setAgentPassword(password);
             agent.setRoleAgent("Client");
             Agents exist = asvc.getAgent(agent.getId());
             if (exist == null) {
