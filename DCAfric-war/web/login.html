@@ -31,17 +31,20 @@ and open the template in the editor.
                     url: "http://8a370932a26a.sn.mynetname.net:8087/services/providing/agents/agent/" + u.value + '/' + p.value + "/show",
                     dataType: "json",
                     success: function (data) {
-                       // console.log(data.roleAgent+"  <--role "+data.nom); 
-                        if (data.roleAgent === "Agent") {
-                            window.location.href = "./html/index.html?agentId="+encodeURIComponent(data.id)+"&prenom="+encodeURIComponent(data.prenom)+"&nom="+encodeURIComponent(data.nom);
-                        } else {
-                            //for administrator page
-                            window.location.href = "./html/index.html?agentId="+encodeURIComponent(data.id)+"&prenom="+encodeURIComponent(data.prenom)+"&nom="+encodeURIComponent(data.nom);
+                        if (data.roleAgent !== "Client") {
+                            if (data.roleAgent === "Agent") {
+                                window.location.href = "./html/index.html?agentId=" + encodeURIComponent(data.id) + "&prenom=" + encodeURIComponent(data.prenom) + "&nom=" + encodeURIComponent(data.nom);
+                            } else {
+                                //for administrator page
+                                window.location.href = "./html/index.html?agentId=" + encodeURIComponent(data.id) + "&prenom=" + encodeURIComponent(data.prenom) + "&nom=" + encodeURIComponent(data.nom);
 
+                            }
+                        }else{
+                           alert("Attention: Vous n'etes pas permis d'acceder a la page demandee");  
                         }
                     },
                     error: function () {
-                                alert("Erreur : utilisateur ou mot de passe incorrect");
+                        alert("Erreur : utilisateur ou mot de passe incorrect");
                     }
                 });
 //                console.log(u.value+"   "+p.value);
