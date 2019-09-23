@@ -39,7 +39,11 @@ public class AgentService {
     }
 
     public Agents getAgent(String id) {
-        return (Agents) em.createNamedQuery("Agents.findById").setParameter("id", id).getSingleResult();
+        try{
+             return (Agents) em.createNamedQuery("Agents.findById").setParameter("id", id).getSingleResult();
+        }catch(NoResultException ex){
+            return null;
+        }  
     }
 
     public Agents auth(String id, String pass) {

@@ -84,7 +84,7 @@ public class AgentsResource {
                 ag.setNom("Un autre compte utilise ce numero choisissez un autre");
             }
         }
-        ag.setAgentPassword("");
+        
         return Response.ok(ag).build();
     }
 
