@@ -69,7 +69,7 @@ public class AgentsResource {
             agent.setRoleAgent("Client");
             asvc.createAgent(agent);
         }
-        agent.setAgentPassword("");
+       
       return Response.ok(agent).build();
     }
 
