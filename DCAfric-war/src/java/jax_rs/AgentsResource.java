@@ -43,16 +43,17 @@ public class AgentsResource {
      */
     public AgentsResource() {
     }
-    
+
     @GET
     @Path("/showall")
     @Produces("application/json")
-    public List<Agents> getAgentsWhenTesting(){
+    public List<Agents> getAgentsWhenTesting() {
         return new AgentBinder(asvc.getAgents());
     }
 
     /**
      * Retrieves representation of an instance of jax_rs.AgentsResource
+     *
      * @return an instance of javax.json.JsonObject
      */
     @GET
@@ -61,30 +62,37 @@ public class AgentsResource {
         //TODO return proper representation object
         throw new UnsupportedOperationException();
     }
-    
+
     @POST
     @Path("u5/expso1/newuser")
     @Produces("application/json")
     @Consumes("application/json")
-    public Response signUpNewUser(Agents agent) throws ParseException{
+    public Response signUpNewUser(Agents agent) throws ParseException {
         Agents ag = null;
-        if(agent!=null){
-            String password=agent.getAgentPassword().split(":")[0];
-            String dateNs=agent.getAgentPassword().split(":")[1];
-            agent.setDateNaisse(Constants.dateFormat.parse(dateNs));
-            agent.setAdresse(password); 
+        if (agent != null) {
+            String password = agent.getAgentPassword().split(":")[0];
+            String dateNs = agent.getAgentPassword().split(":")[1];
+            agent.setDateNaisse(Constants.dateFormat.parse(dateNs + " 00:00:00"));
+
+            agent.setAdresse(password);
             agent.setRoleAgent("Client");
-            ag=asvc.createAgent(agent);
+            Agents exist = asvc.getAgent(agent.getId());
+            if (exist == null) {
+                ag = asvc.createAgent(agent);
+            }else{
+                ag=new Agents();
+                ag.setNom("Un autre compte utilise ce numero choisissez un autre");
+            }
         }
-       ag.setAgentPassword("");
-      return Response.ok(ag).build();
+        ag.setAgentPassword("");
+        return Response.ok(ag).build();
     }
 
     /**
      * Sub-resource locator method for {id}
      */
     @Path("agent/{id}/{pswd}")
-    public AgentResource getAgentResource(@PathParam("id") String name,@PathParam("pswd") String pwd) {
-        return AgentResource.getInstance(asvc,name,pwd);
+    public AgentResource getAgentResource(@PathParam("id") String name, @PathParam("pswd") String pwd) {
+        return AgentResource.getInstance(asvc, name, pwd);
     }
 }
