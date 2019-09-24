@@ -175,6 +175,14 @@ public class VentesResource {
         List<Vente> ventes = ventesRepport.getVenteForKiosqueGroupByProductOnPeriod(kiosque, date1, date2);
         return new VenteBinder(ventes);
     }
+    
+    @GET
+    @Path("rapport/view/allsales/for/{reference}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<Vente> getAllVentesWithKiosq(@PathParam("reference") String kiosque) {
+        List<Vente> ventes =vs.getAllVentes(kiosque);
+        return new VenteBinder(ventes);
+    }
 
     @GET
     @Path("rapport/view/sum/de/toutvente/en/{devise}/{reference}/{dateDebut}/{dateFin}")
