@@ -60,9 +60,9 @@
                     dataType: "json",
                     success: function (data) {
                         console.log("data "+data.length);
-                        var table = $("#table tbody");
+                        var table = $("#data_vente_recqisition");
                         for (var i = 0; i < data.length; i++) {
-                            table.append("<tr><td>" + data[i].date + "</td><td>" + data[i].id + "</td><td>" + data[i].date + "</td><td>" + data[i].date + "</td><td>" + data[i].date + "</td><td>" + data[i].date + "</td><td>" + data[i].date + "</td><td>" + data[i].date + "</td><td>" + data[i].date + "</td><td>" + data[i].date + "</td><td>" + data[i].date + "</td><tr>");
+                            table.append("<tr><td>" + data[i].date + "</td><td>" + data[i].ventePK.id + "</td><td>" + data[i].date + "</td><td>" + data[i].date + "</td><td>" + data[i].date + "</td><td>" + data[i].date + "</td><td>" + data[i].date + "</td><tr>");
                         }
                     },
                     error: function () {
