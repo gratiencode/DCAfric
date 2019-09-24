@@ -59,7 +59,7 @@
                     url: "http://127.0.0.1:8087/services/providing/rapport/view/parpage/details/toutvente/KM06/2019-08-01/2019-09-22",
                     dataType: "json",
                     success: function (data) {
-                        console.log(data[0].id)
+                        console.log(data[0].id);
                         var table = $("#table tbody");
                         for (var i = 0; i < data.length; i++) {
                             table.append("<tr><td>" + data[i].date + "</td><td>" + data[i].id + "</td><td>" + data[i].date + "</td><td>" + data[i].date + "</td><td>" + data[i].date + "</td><td>" + data[i].date + "</td><td>" + data[i].date + "</td><td>" + data[i].date + "</td><td>" + data[i].date + "</td><td>" + data[i].date + "</td><td>" + data[i].date + "</td><tr>");
