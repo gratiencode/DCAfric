@@ -376,34 +376,20 @@
                                 <div class="col-md-12">
                                     <div class="overview-wrap">
                                         <h2 class="title-1">Tableau de bord</h2>
-                                       
-                                            <div class="account-wrap">
-                                                <div class="account-item clearfix js-item-menu">
-                                                     <button class="au-btn au-btn-icon au-btn--blue">
-                                            <i class="zmdi zmdi-plus"></i>Ajouter une recquisition</button>
-                                                    <div class="account-dropdown js-dropdown">                                             
-                                                        <div class="account-dropdown__body">
-                                                            <div class="account-dropdown__item">
-                                                                <a href="#">
-                                                                    <i class="zmdi zmdi-network"></i>Solde unite airtel</a>
-                                                            </div>
-                                                            <div class="account-dropdown__item">
-                                                                <a href="#">
-                                                                    <i class="zmdi zmdi-network"></i>Solde mega airtel</a>
-                                                            </div>
-                                                            <div class="account-dropdown__item">
-                                                                <a href="#">
-                                                                    <i class="zmdi zmdi-network"></i>Solde orange</a>
-                                                            </div>
-                                                            <div class="account-dropdown__item">
-                                                                <a href="#">
-                                                                    <i class="zmdi zmdi-network"></i>Solde vodacom</a>
-                                                            </div>
-                                                        </div>
+                                        <div class="account-wrap">
+                                            <div class="account-item clearfix js-item-menu">
+                                                <button class="au-btn au-btn-icon au-btn--blue">
+                                                    <i class="zmdi zmdi-plus"></i>Ajouter une recquisition</button>
+                                                <div class="account-dropdown js-dropdown">                                             
+                                                    <div class="account-dropdown__body">
+                                                        <div class="row">
 
+                                                        </div>
                                                     </div>
+
                                                 </div>
                                             </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -631,6 +617,71 @@
                                                     </tbody>
                                                 </table>
                                             </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-6" >
+                                    <div class="card">
+                                        <div class="card-header">Nouvelle vente</div>
+                                        <div class="card-body">
+                                            <div class="card-title">
+                                                <h3 class="text-center title-3">Enregistrement d'une nouvelle vente</h3>
+                                            </div>
+                                            <hr>
+                                            <form action="" method="post" novalidate="novalidate">
+                                                <div class="form-group text-center">
+                                                    <input type="checkbox" id="checkbox1" name="checkbox1" value="option1" class="form-check-input">  
+                                                    <label for="checkbox1" class="form-check-label mb-1"> Abonnement initial</label>                       
+                                                </div>
+
+                                                <div class="form-group">
+
+                                                    <label for="cc-payment" class="control-label mb-1">Numero du kiosque</label>
+                                                    <input id="cc-pament" name="cc-payment" type="text" class="form-control" aria-required="true" aria-invalid="false">
+                                                </div>
+                                                <div class="form-group">
+
+                                                    <label for="selectSm" class=" form-control-label">Produit</label>
+
+
+                                                    <select name="selectSm" id="SelectLm" class="form-control-sm form-control">
+                                                        <option value="0">Please select</option>
+                                                        <option value="1">458-Unite airtel</option>
+                                                        <option value="2">489-mega airtel</option>
+                                                        <option value="3">733-Unite orange</option>
+                                                        <option value="4">735-Unite vodacom</option>
+
+                                                    </select>
+
+                                                </div>
+                                                <div class="form-group has-success">
+                                                    <label for="cc-name" class="control-label mb-1">Quantite</label>
+                                                    <input id="cc-name" name="cc-name" type="text" class="form-control cc-name valid" data-val="true" data-val-required="Please enter the name on card"
+                                                           autocomplete="cc-name" aria-required="true" aria-invalid="false" aria-describedby="cc-name-error">
+                                                    <span class="help-block field-validation-valid" data-valmsg-for="cc-name" data-valmsg-replace="true"></span>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="cc-number" class="control-label mb-1">Total</label>
+                                                    <input id="cc-number" name="cc-number" type="tel" class="form-control cc-number identified visa" value="" data-val="true"
+                                                           data-val-required="Please enter the card number" data-val-cc-number="Please enter a valid card number"
+                                                           autocomplete="cc-number">
+                                                    <span class="help-block" data-valmsg-for="cc-number" data-valmsg-replace="true"></span>
+                                                </div>
+
+                                                <div>
+
+                                                    <div class="card-footer">
+                                                        <button type="submit" class="btn btn-success btn-sm">
+                                                            <i class="fa fa-dot-circle-o"></i> Enregistrer la vente
+                                                        </button>
+                                                        <button type="reset" class="btn btn-danger btn-sm">
+                                                            <i class="fa fa-ban"></i> Initialiser les champs
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </form>
                                         </div>
                                     </div>
                                 </div>
