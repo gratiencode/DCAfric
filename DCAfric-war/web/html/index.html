@@ -375,21 +375,9 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="overview-wrap">
-                                        <h2 class="title-1">Tableau de bord</h2>
-                                        <div class="account-wrap">
-                                            <div class="account-item clearfix js-item-menu">
-                                                <button class="au-btn au-btn-icon au-btn--blue">
-                                                    <i class="zmdi zmdi-plus"></i>Ajouter une recquisition</button>
-                                                <div class="account-dropdown js-dropdown">                                             
-                                                    <div class="account-dropdown__body">
-                                                        <div class="row">
-
-                                                        </div>
-                                                    </div>
-
-                                                </div>
-                                            </div>
-                                        </div>
+                                        <h2 class="title-2">Tablea de bord</h2>
+                                        <button class="au-btn au-btn-icon au-btn--blue">
+                                            <i class="zmdi zmdi-plus"></i>Ajouter une recquisition</button>
                                     </div>
                                 </div>
                             </div>
@@ -547,143 +535,106 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-lg-9">
-                                    <h2 class="title-1 m-b-25">Ventes par produit</h2>
-                                    <div class="table-responsive table--no-card m-b-40">
-                                        <table class="table table-borderless table-striped table-earning" id="data_vente_recqisition">
-                                            <thead>
-                                                <tr>
-                                                    <th>Date</th>
-                                                    <th>ID</th>
-                                                    <th>Produit</th>
-                                                    <th>Kiosque</th>
-                                                    <th class="text-right">P.U</th>
-                                                    <th class="text-right">Quantite</th>
-                                                    <th class="text-right">Total</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                                <div class="col-lg-3">
-                                    <h2 class="title-1 m-b-25">Top 10 Kiosques</h2>
-                                    <div class="au-card au-card--bg-blue au-card-top-countries m-b-40">
-                                        <div class="au-card-inner">
-                                            <div class="table-responsive">
-                                                <table class="table table-top-countries">
-                                                    <tbody>
-                                                        <tr>
-                                                            <td>DR Congo</td>
-                                                            <td class="text-right">$119,366.96</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Australia</td>
-                                                            <td class="text-right">$70,261.65</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>United Kingdom</td>
-                                                            <td class="text-right">$46,399.22</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Turkey</td>
-                                                            <td class="text-right">$35,364.90</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Germany</td>
-                                                            <td class="text-right">$20,366.96</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>France</td>
-                                                            <td class="text-right">$10,366.96</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Australia</td>
-                                                            <td class="text-right">$5,366.96</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Italy</td>
-                                                            <td class="text-right">$1639.32</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Congo-brazza</td>
-                                                            <td class="text-right">$5,366.96</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>United states</td>
-                                                            <td class="text-right">$1639.32</td>
-                                                        </tr>
-                                                    </tbody>
-                                                </table>
+                                <div class="col-lg-12">
+                                    <ul class="nav nav-tabs" id="myTab" role="tablist">
+                                        <li class="nav-item">
+                                            <a class="nav-link active" id="vente-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Ventes</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" id="recq-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Recquisition</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" id="newclient-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">Nouveau client</a>
+                                        </li>
+                                    </ul>
+                                    <div class="tab-content pl-3 p-1" id="myTabContent">
+                                        <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="vente-tab">
+                                            <h3>Home</h3>
+                                            <p>Some content here.</p>
+                                            <div class="col-lg-9">
+                                                <h2 class="title-2 m-b-25">Ventes par produit</h2>
+                                                <div class="table-responsive table--no-card m-b-40">
+                                                    <table class="table table-borderless table-striped table-earning" id="data_vente_recqisition">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Date</th>
+                                                                <th>ID</th>
+                                                                <th>Produit</th>
+                                                                <th>Kiosque</th>
+                                                                <th class="text-right">P.U</th>
+                                                                <th class="text-right">Quantite</th>
+                                                                <th class="text-right">Total</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-lg-6" >
-                                    <div class="card">
-                                        <div class="card-header">Nouvelle vente</div>
-                                        <div class="card-body">
-                                            <div class="card-title">
-                                                <h3 class="text-center title-3">Enregistrement d'une nouvelle vente</h3>
-                                            </div>
-                                            <hr>
-                                            <form action="" method="post" novalidate="novalidate">
-                                                <div class="form-group text-center">
-                                                    <input type="checkbox" id="checkbox1" name="checkbox1" value="option1" class="form-check-input">  
-                                                    <label for="checkbox1" class="form-check-label mb-1"> Abonnement initial</label>                       
-                                                </div>
-
-                                                <div class="form-group">
-
-                                                    <label for="cc-payment" class="control-label mb-1">Numero du kiosque</label>
-                                                    <input id="cc-pament" name="cc-payment" type="text" class="form-control" aria-required="true" aria-invalid="false">
-                                                </div>
-                                                <div class="form-group">
-
-                                                    <label for="selectSm" class=" form-control-label">Produit</label>
-
-
-                                                    <select name="selectSm" id="SelectLm" class="form-control-sm form-control">
-                                                        <option value="0">Please select</option>
-                                                        <option value="1">458-Unite airtel</option>
-                                                        <option value="2">489-mega airtel</option>
-                                                        <option value="3">733-Unite orange</option>
-                                                        <option value="4">735-Unite vodacom</option>
-
-                                                    </select>
-
-                                                </div>
-                                                <div class="form-group has-success">
-                                                    <label for="cc-name" class="control-label mb-1">Quantite</label>
-                                                    <input id="cc-name" name="cc-name" type="text" class="form-control cc-name valid" data-val="true" data-val-required="Please enter the name on card"
-                                                           autocomplete="cc-name" aria-required="true" aria-invalid="false" aria-describedby="cc-name-error">
-                                                    <span class="help-block field-validation-valid" data-valmsg-for="cc-name" data-valmsg-replace="true"></span>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="cc-number" class="control-label mb-1">Total</label>
-                                                    <input id="cc-number" name="cc-number" type="tel" class="form-control cc-number identified visa" value="" data-val="true"
-                                                           data-val-required="Please enter the card number" data-val-cc-number="Please enter a valid card number"
-                                                           autocomplete="cc-number">
-                                                    <span class="help-block" data-valmsg-for="cc-number" data-valmsg-replace="true"></span>
-                                                </div>
-
-                                                <div>
-
-                                                    <div class="card-footer">
-                                                        <button type="submit" class="btn btn-success btn-sm">
-                                                            <i class="fa fa-dot-circle-o"></i> Enregistrer la vente
-                                                        </button>
-                                                        <button type="reset" class="btn btn-danger btn-sm">
-                                                            <i class="fa fa-ban"></i> Initialiser les champs
-                                                        </button>
+                                        <div class="col-lg-3">
+                                            <h2 class="title-1 m-b-25">Top 10 Kiosques</h2>
+                                            <div class="au-card au-card--bg-blue au-card-top-countries m-b-40">
+                                                <div class="au-card-inner">
+                                                    <div class="table-responsive">
+                                                        <table class="table table-top-countries">
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td>DR Congo</td>
+                                                                    <td class="text-right">$119,366.96</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>Australia</td>
+                                                                    <td class="text-right">$70,261.65</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>United Kingdom</td>
+                                                                    <td class="text-right">$46,399.22</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>Turkey</td>
+                                                                    <td class="text-right">$35,364.90</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>Germany</td>
+                                                                    <td class="text-right">$20,366.96</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>France</td>
+                                                                    <td class="text-right">$10,366.96</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>Australia</td>
+                                                                    <td class="text-right">$5,366.96</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>Italy</td>
+                                                                    <td class="text-right">$1639.32</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>Congo-brazza</td>
+                                                                    <td class="text-right">$5,366.96</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>United states</td>
+                                                                    <td class="text-right">$1639.32</td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
                                                     </div>
                                                 </div>
-                                            </form>
+                                            </div>
                                         </div>
                                     </div>
+                                    <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="recq-tab">
+                                        <h3>Menu 1</h3>
+                                        <p>Some content here.</p>
+                                    </div>
+                                    <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="newclient-tab">
+                                        <h3>Menu 2</h3>
+                                        <p>Some content here.</p>
+                                    </div>
+
                                 </div>
                             </div>
 
