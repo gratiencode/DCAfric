@@ -63,7 +63,7 @@
                         var table = $("#data_vente_recqisition");
                      
                         for (var i = 0; i < data.length; i++) {
-                            var d=new Date(data[i].date);
+                            var d=new Date(Date.parse(data[i].date));
                             var datestring = d.getDate()  + "/" + (d.getMonth()+1) + "/" + d.getFullYear() + " " +d.getHours() + ":" + d.getMinutes();
                             table.append("<tr><td>" + datestring+ "</td><td>" + data[i].ventePK.id + "</td><td>" + data[i].ventePK.idProduit + "</td><td>" + data[i].ventePK.reference + "</td><td>" + data[i].devise+ "</td><td>" + data[i].quantite+ "</td><td>" + data[i].mantant + "</td><tr>");
                         }
