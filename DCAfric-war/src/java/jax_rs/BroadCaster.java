@@ -248,6 +248,7 @@ public class BroadCaster {
         Logger.getLogger(this.getClass().getName()).info("U-SOLDE!!" + operateur);
         SerialPort sports[] = SerialPort.getCommPorts();
         String reso = operateur;
+        label:
         for (SerialPort spi : sports) {
             String s = spi.getDescriptivePortName();
             String ss = spi.getSystemPortName();
@@ -282,6 +283,10 @@ public class BroadCaster {
                             ussd.setUssdCode("AIR002A00310030003000300023");
                             ussd.setOperator(operateur);
                             ussd.setResult(cmd1.replaceAll("\\r\\n|\\r|\\n", ""));
+                            String ssss = ussd.getResult();
+                        if (!ssss.contains(",") || !ssss.contains("CO:eTopUP")) {
+                            continue label;
+                        }
                             return Response.ok(ussd).build();
                         } else if (prod.equals(Constants.MEGA)) {
 
@@ -293,6 +298,10 @@ public class BroadCaster {
                             ussd0.setUssdCode("*425#");
                             ussd0.setOperator(operateur);
                             ussd0.setResult(cmd0o.replaceAll("\\r\\n|\\r|\\n", ""));
+                            String ssss = ussd0.getResult();
+                        if (!ssss.contains(",") || !ssss.contains("MB") || !ssss.contains("aucun forfait")) {
+                            continue label;
+                        }
                             return Response.ok(ussd0).build();
                         }
 
@@ -689,24 +698,16 @@ public class BroadCaster {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                CurentSolde curs = csb.findExact(id_agent, id_prod);
-                double solde = curs.getSolde() - radical;
-                updateSmartSolde(id_agent, id_prod, solde);
+                updateSmartSolde(id_agent, id_prod, radical);
             }
         }).start();
     }
 
-    private void updateSmartSolde(String id_agent, String id_pord, double solde) {
+    private void updateSmartSolde(String id_agent, String id_pord, double radical) {
         CurentSolde cs = csb.findExact(id_agent, id_pord);
-        if (cs == null) {
-            int id = (int) (Math.random() * 100000);
-            cs = new CurentSolde();
-            CurentSoldePK cspk = new CurentSoldePK(id, id_agent, id_pord);
-            cs.setCurentSoldePK(cspk);
-            cs.setSolde(solde);
-            csb.insertSolde(cs);
-        } else {
-            cs.setSolde(solde);
+        if (cs != null) {
+            double balance = cs.getSolde();
+            cs.setSolde(balance - radical);
             csb.updateSolde(cs);
         }
     }
