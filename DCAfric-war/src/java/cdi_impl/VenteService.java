@@ -99,7 +99,7 @@ public class VenteService {
     public List<Vente> getAllVentes(String kiosk){
         StringBuilder sb = new StringBuilder();
         sb.append("SELECT c._date, c.id, c.id_produit, c.devise, c.mantant, c.quantite, c.reference ");
-        sb.append("FROM Vente c ");
+        sb.append("FROM vente c ");
         sb.append("WHERE c.reference LIKE ? ");
         Query query = em.createNativeQuery(sb.toString(), Vente.class);
         query.setParameter(1, kiosk+"%");
