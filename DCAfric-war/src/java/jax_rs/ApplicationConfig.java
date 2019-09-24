@@ -62,6 +62,7 @@ public class ApplicationConfig extends Application {
         resources.add(jax_rs.ServicesResource.class);
         resources.add(jax_rs.SmartSoldeResource.class);
         resources.add(jax_rs.SmartSoldesResource.class);
+        resources.add(jax_rs.VenteResource.class);
         resources.add(jax_rs.VentesResource.class);
     }
     
