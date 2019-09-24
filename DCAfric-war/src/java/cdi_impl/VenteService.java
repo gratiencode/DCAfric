@@ -95,6 +95,16 @@ public class VenteService {
         }
         return cmd;
     }
+    
+    public List<Vente> getAllVentes(String kiosk){
+        StringBuilder sb = new StringBuilder();
+        sb.append("SELECT c._date, c.id, c.id_produit, c.devise, c.mantant, c.quantite, c.reference ");
+        sb.append("FROM Vente c ");
+        sb.append("WHERE c.reference LIKE ? ");
+        Query query = em.createNativeQuery(sb.toString(), Vente.class);
+        query.setParameter(1, kiosk+"%");
+        return query.getResultList();
+    }
 
     public Commande updateCommande(Commande cmd) {
         em.merge(cmd);
