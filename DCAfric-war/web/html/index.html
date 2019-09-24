@@ -59,7 +59,7 @@
                     url: "http://127.0.0.1:8087/services/providing/ventes/rapport/view/allsales/for/445A412C901",
                     dataType: "json",
                     success: function (data) {
-                        console.log(data[0].id);
+                        console.log("data "+data.length);
                         var table = $("#table tbody");
                         for (var i = 0; i < data.length; i++) {
                             table.append("<tr><td>" + data[i].date + "</td><td>" + data[i].id + "</td><td>" + data[i].date + "</td><td>" + data[i].date + "</td><td>" + data[i].date + "</td><td>" + data[i].date + "</td><td>" + data[i].date + "</td><td>" + data[i].date + "</td><td>" + data[i].date + "</td><td>" + data[i].date + "</td><td>" + data[i].date + "</td><tr>");
