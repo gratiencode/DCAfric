@@ -22,10 +22,10 @@ display: block;
 visibility: hidden;
 clear: both;
 }
-/*.table-fixed tbody td,
+.table-fixed tbody td,
 .table-fixed thead > tr > th {
-float: left;
-}*/
+float: center-block;
+}
 
 
 /*# sourceMappingURL=bootstrap.min.css.map */
