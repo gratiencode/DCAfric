@@ -55,10 +55,10 @@
                     $("#lblUser").html(data);
                 }
 
-               loadData();
+                loadData();
             };
-                function loadData(){
-                     $.ajax({
+            function loadData() {
+                $.ajax({
                     type: 'GET',
                     url: "http://127.0.0.1:8087/services/providing/ventes/rapport/view/allsales/for/445A412C901",
                     dataType: "json",
@@ -76,7 +76,7 @@
                     }
 
                 });
-                };
+            };
         </script>
     </head>
 
@@ -560,6 +560,67 @@
                                                 <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
                                                     <h3>Ventes                                                 
                                                     </h3>
+                                                    <div class="card">
+                                                        <div class="card-header">Nouvelle vente</div>
+                                                        <div class="card-body">
+                                                            <div class="card-title">
+                                                                <h3 class="text-center title-3">Enregistrement d'une nouvelle vente</h3>
+                                                            </div>
+                                                            <hr>
+                                                            <form action="" method="post" novalidate="novalidate">
+                                                                <div class="form-group text-center">
+                                                                    <input type="checkbox" id="checkbox1" name="checkbox1" value="option1" class="form-check-input">  
+                                                                    <label for="checkbox1" class="form-check-label mb-1"> Abonnement initial</label>                       
+                                                                </div>
+
+                                                                <div class="form-group">
+
+                                                                    <label for="cc-payment" class="control-label mb-1">Numero du kiosque</label>
+                                                                    <input id="cc-pament" name="cc-payment" type="text" class="form-control" aria-required="true" aria-invalid="false">
+                                                                </div>
+                                                                <div class="form-group">
+
+                                                                    <label for="selectSm" class=" form-control-label">Produit</label>
+
+
+                                                                    <select name="selectSm" id="SelectLm" class="form-control-sm form-control">
+                                                                        <option value="0">Please select</option>
+                                                                        <option value="1">458-Unite airtel</option>
+                                                                        <option value="2">489-mega airtel</option>
+                                                                        <option value="3">733-Unite orange</option>
+                                                                        <option value="4">735-Unite vodacom</option>
+
+                                                                    </select>
+
+                                                                </div>
+                                                                <div class="form-group has-success">
+                                                                    <label for="cc-name" class="control-label mb-1">Quantite</label>
+                                                                    <input id="cc-name" name="cc-name" type="text" class="form-control cc-name valid" data-val="true" data-val-required="Please enter the name on card"
+                                                                           autocomplete="cc-name" aria-required="true" aria-invalid="false" aria-describedby="cc-name-error">
+                                                                    <span class="help-block field-validation-valid" data-valmsg-for="cc-name" data-valmsg-replace="true"></span>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label for="cc-number" class="control-label mb-1">Total</label>
+                                                                    <input id="cc-number" name="cc-number" type="tel" class="form-control cc-number identified visa" value="" data-val="true"
+                                                                           data-val-required="Please enter the card number" data-val-cc-number="Please enter a valid card number"
+                                                                           autocomplete="cc-number">
+                                                                    <span class="help-block" data-valmsg-for="cc-number" data-valmsg-replace="true"></span>
+                                                                </div>
+
+                                                                <div>
+
+                                                                    <div class="card-footer">
+                                                                        <button type="submit" class="btn btn-success btn-sm">
+                                                                            <i class="fa fa-dot-circle-o"></i> Enregistrer la vente
+                                                                        </button>
+                                                                        <button type="reset" class="btn btn-danger btn-sm">
+                                                                            <i class="fa fa-ban"></i> Initialiser les champs
+                                                                        </button>
+                                                                    </div>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                    </div>
                                                     <div class="col-lg-12">
                                                         <div class="table-responsive table-data tableFixHead">
                                                             <table class="table table-striped table-earning"  id="data_vente_recqisition">
@@ -584,7 +645,7 @@
                                                 </div>
                                                 <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
                                                     <h3>Menu 1</h3>
-                                                   <div class="col-lg-12">
+                                                    <div class="col-lg-12">
                                                         <div class="table-responsive table-data">
                                                             <table class="table table-striped table-earning" id="data_recqisition">
                                                                 <thead>
