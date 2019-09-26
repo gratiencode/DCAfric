@@ -54,8 +54,9 @@
                     var data = "Bonjour : " + stringQuery["prenom"] + " " + stringQuery["nom"];
                     $("#lblUser").html(data);
                 }
-
-                loadData();
+                if (stringQuery["prenom"] !== null && stringQuery["nom"] !== null) {
+                    loadData();
+                }
             };
             function loadData() {
                 $.ajax({
@@ -76,63 +77,80 @@
                     }
 
                 });
-            };
-            function getAirtelUsolde(){
+            }
+            ;
+            function getAirtelUsolde() {
                 $.ajax({
                     type: 'GET',
                     url: "http://127.0.0.1:8087/services/providing/realtime/executer/ussd/solde/telekom/p/airtel/unite",
                     dataType: "json",
                     success: function (data) {
-                        
+                        var affiche = $("#textarea-input");
+                        var rst = data.split(",")[1];
+                        affiche.append(rst);
+
                     },
                     error: function () {
-
+                        alert("Une erreur s'est produite");
                     }
 
                 });
-            };
-            function getAirtelMegaSolde(){
+            }
+            ;
+            function getAirtelMegaSolde() {
                 $.ajax({
                     type: 'GET',
                     url: "http://127.0.0.1:8087/services/providing/realtime/executer/ussd/solde/telekom/p/airtel/mega",
                     dataType: "json",
                     success: function (data) {
-                        
+                        var affiche = $("#textarea-input");
+                        var rst = data.split(",")[1];
+                        affiche.append(rst);
+
                     },
                     error: function () {
-
+                        alert("Une erreur s'est produite");
                     }
 
                 });
-            };
-            function getOrangeUsolde(){
+            }
+            ;
+            function getOrangeUsolde() {
                 $.ajax({
                     type: 'GET',
                     url: "http://127.0.0.1:8087/services/providing/realtime/executer/ussd/solde/telekom/p/orange/unite",
                     dataType: "json",
                     success: function (data) {
-                        
+                        var affiche = $("#textarea-input");
+                        var rst = data.split(",")[1];
+                        affiche.append(rst);
+
                     },
                     error: function () {
-
+                        alert("Une erreur s'est produite");
                     }
 
                 });
-            };
-            function getvodacomUsolde(){
+            }
+            ;
+            function getvodacomUsolde() {
                 $.ajax({
                     type: 'GET',
                     url: "http://127.0.0.1:8087/services/providing/realtime/executer/ussd/solde/telekom/p/vodacom/unite",
                     dataType: "json",
                     success: function (data) {
-                        
+                        var affiche = $("#textarea-input");
+                        var rst = data.split(",")[1];
+                        affiche.append(rst);
+
                     },
                     error: function () {
-
+                        alert("Une erreur s'est produite");
                     }
 
                 });
-            };
+            }
+            ;
         </script>
     </head>
 
@@ -572,15 +590,15 @@
                                                                     <i class="zmdi zmdi-network"></i>Solde unite airtel</a>
                                                             </div>
                                                             <div class="account-dropdown__item">
-                                                                <a href="#">
+                                                                <a href="javascript:getAirtelMegaSolde();">
                                                                     <i class="zmdi zmdi-network"></i>Solde mega airtel</a>
                                                             </div>
                                                             <div class="account-dropdown__item">
-                                                                <a href="#">
+                                                                <a href="javascript:getOrangeUsolde();">
                                                                     <i class="zmdi zmdi-network"></i>Solde orange</a>
                                                             </div>
                                                             <div class="account-dropdown__item">
-                                                                <a href="#">
+                                                                <a href="javascript:getvodacomUsolde();">
                                                                     <i class="zmdi zmdi-network"></i>Solde vodacom</a>
                                                             </div>
                                                         </div>
@@ -619,9 +637,9 @@
                                                         <div class="card-header">Nouvelle vente</div>
                                                         <div class="card-body">
 
-                                                          
+
                                                             <form action="" method="post" novalidate="novalidate">
-                                                                 <div class="form-group">
+                                                                <div class="form-group">
                                                                     <label for="selectSm" class=" form-control-label">Produit</label>
                                                                     <select name="selectSm" id="SelectLm" class="form-control-sm form-control">
                                                                         <option value="0">Selectionner un element svp</option>
@@ -640,7 +658,7 @@
                                                                     <div class="col-4">
                                                                         <div class="form-group">
                                                                             <label for="cc-exp" class="control-label mb-1">Quantite</label>
-                                                                             <input id="x_card_code" name="x_card_code" type="tel" class="form-control cc-cvc" value="" data-val="true" data-val-required="Please enter the security code" data-val-cc-cvc="Please enter a valid security code" autocomplete="off">
+                                                                            <input id="x_card_code" name="x_card_code" type="tel" class="form-control cc-cvc" value="" data-val="true" data-val-required="Please enter the security code" data-val-cc-cvc="Please enter a valid security code" autocomplete="off">
 
                                                                         </div>
                                                                     </div>
@@ -659,8 +677,8 @@
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                               
-                                                               
+
+
                                                                 <div>
 
                                                                     <div class="card-footer">
