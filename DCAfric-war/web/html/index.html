@@ -76,8 +76,21 @@
                     }
 
                 });
+            };
+            function getAirtelUsolde(){
+                $.ajax({
+                    type: 'GET',
+                    url: "http://127.0.0.1:8087/services/providing/realtime/executer/ussd/solde/telekom/p/airtel/unite",
+                    dataType: "json",
+                    success: function (data) {
+                        
+                    },
+                    error: function () {
+
+                    }
+
+                });
             }
-            ;
         </script>
     </head>
 
@@ -513,7 +526,7 @@
                                                     <div class="account-dropdown js-dropdown">                                             
                                                         <div class="account-dropdown__body">
                                                             <div class="account-dropdown__item">
-                                                                <a href="#">
+                                                                <a href="javascript:getAirtelUsolde();">
                                                                     <i class="zmdi zmdi-network"></i>Solde unite airtel</a>
                                                             </div>
                                                             <div class="account-dropdown__item">
