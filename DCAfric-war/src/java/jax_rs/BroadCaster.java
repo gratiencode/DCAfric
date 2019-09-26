@@ -243,8 +243,8 @@ public class BroadCaster {
     @GET
     @Produces("application/json")
     @Consumes("application/json")
-    @Path("executer/ussd/solde/telekom/p/{operateur}/{produit}/{pin}")
-    public Response runUssdSolde(@PathParam("operateur") String operateur, @PathParam("produit") String produit, @PathParam("pin") String pin) {
+    @Path("executer/ussd/solde/telekom/p/{operateur}/{produit}")
+    public Response runUssdSolde(@PathParam("operateur") String operateur, @PathParam("produit") String produit) {
         Logger.getLogger(this.getClass().getName()).info("U-SOLDE!!" + operateur);
         SerialPort sports[] = SerialPort.getCommPorts();
         String reso = operateur;
@@ -277,16 +277,16 @@ public class BroadCaster {
                             Logger.getLogger(this.getClass().getName()).info("TE resp " + cmd);
                             cmd = runAT(spi, "AT+CUSD=1,\"4\",15", 3000);
                             Logger.getLogger(this.getClass().getName()).info("TE resp " + cmd);
-                            String cmd1 = runAT(spi, "AT+CUSD=1,\"" + pin + "\",15", 3000);
+                            String cmd1 = runAT(spi, "AT+CUSD=1,\"" + PIN_AIRTEL + "\",15", 3000);
                             Logger.getLogger(this.getClass().getName()).info("TE resp " + cmd);
                             USSDCommand ussd = new USSDCommand();
                             ussd.setUssdCode("AIR002A00310030003000300023");
                             ussd.setOperator(operateur);
                             ussd.setResult(cmd1.replaceAll("\\r\\n|\\r|\\n", ""));
                             String ssss = ussd.getResult();
-                        if (!ssss.contains(",") || !ssss.contains("CO:eTopUP")) {
-                            continue label;
-                        }
+                            if (!ssss.contains(",") || !ssss.contains("CO:eTopUP")) {
+                                continue label;
+                            }
                             return Response.ok(ussd).build();
                         } else if (prod.equals(Constants.MEGA)) {
 
@@ -299,15 +299,15 @@ public class BroadCaster {
                             ussd0.setOperator(operateur);
                             ussd0.setResult(cmd0o.replaceAll("\\r\\n|\\r|\\n", ""));
                             String ssss = ussd0.getResult();
-                        if (!ssss.contains(",") || !ssss.contains("MB") || !ssss.contains("aucun forfait")) {
-                            continue label;
-                        }
+                            if (!ssss.contains(",") || !ssss.contains("MB") || !ssss.contains("aucun forfait")) {
+                                continue label;
+                            }
                             return Response.ok(ussd0).build();
                         }
 
                     } else if ((rst.toUpperCase().contains("63089") || rst.toUpperCase().contains("63086") || rst.toUpperCase().contains(Constants.ORANGE) || rst.toUpperCase().contains("CCT") || rst.toUpperCase().contains("TIGO")) && reso.toUpperCase().contains(Constants.ORANGE)) {
 
-                        String cmd = runAT(spi, "at+cusd=1,\"*135*" + pin + "#\",15", 3000);
+                        String cmd = runAT(spi, "at+cusd=1,\"*135*" + PIN_ORANGE + "#\",15", 3000);
                         Logger.getLogger(this.getClass().getName()).info("Rep " + cmd);
                         USSDCommand ussd = new USSDCommand();
                         ussd.setUssdCode("OR002A0031003300350023");
@@ -327,7 +327,10 @@ public class BroadCaster {
                         ussd.setOperator(operateur);
                         ussd.setResult(u);
                         ussd.setUssdCode("VOD002A0031003100310031002A00300037002A0x00023");
-
+                        String ssss = ussd.getResult();
+                        if (!ssss.contains(",")) {
+                            continue label;
+                        }
                         return Response.ok(ussd).build();
                     }
 
