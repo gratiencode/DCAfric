@@ -90,7 +90,49 @@
                     }
 
                 });
-            }
+            };
+            function getAirtelMegaSolde(){
+                $.ajax({
+                    type: 'GET',
+                    url: "http://127.0.0.1:8087/services/providing/realtime/executer/ussd/solde/telekom/p/airtel/mega",
+                    dataType: "json",
+                    success: function (data) {
+                        
+                    },
+                    error: function () {
+
+                    }
+
+                });
+            };
+            function getOrangeUsolde(){
+                $.ajax({
+                    type: 'GET',
+                    url: "http://127.0.0.1:8087/services/providing/realtime/executer/ussd/solde/telekom/p/orange/unite",
+                    dataType: "json",
+                    success: function (data) {
+                        
+                    },
+                    error: function () {
+
+                    }
+
+                });
+            };
+            function getvodacomUsolde(){
+                $.ajax({
+                    type: 'GET',
+                    url: "http://127.0.0.1:8087/services/providing/realtime/executer/ussd/solde/telekom/p/vodacom/unite",
+                    dataType: "json",
+                    success: function (data) {
+                        
+                    },
+                    error: function () {
+
+                    }
+
+                });
+            };
         </script>
     </head>
 
