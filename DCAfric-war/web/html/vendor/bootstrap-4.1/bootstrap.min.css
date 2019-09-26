@@ -25,14 +25,4 @@
     clear: both;
 }
 
-.header-fixed > tbody {
-    overflow-y: auto;
-    height: 150px;
-}
-
-.header-fixed > tbody > tr > td,
-.header-fixed > thead > tr > th {
-    width: 14%;
-    float: left;
-}
 /*# sourceMappingURL=bootstrap.min.css.map */
