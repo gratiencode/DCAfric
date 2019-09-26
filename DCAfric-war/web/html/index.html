@@ -55,7 +55,10 @@
                     $("#lblUser").html(data);
                 }
 
-                $.ajax({
+               loadData;
+            };
+                function loadData(){
+                     $.ajax({
                     type: 'GET',
                     url: "http://127.0.0.1:8087/services/providing/ventes/rapport/view/allsales/for/445A412C901",
                     dataType: "json",
@@ -73,7 +76,7 @@
                     }
 
                 });
-            };
+                }
         </script>
     </head>
 
