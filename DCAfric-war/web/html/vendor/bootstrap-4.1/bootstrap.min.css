@@ -7,7 +7,7 @@
 .table-fixed tbody {
 height: 200px;
 overflow-y: auto;
-width: 100%;
+/*width: 100%;*/
 }
 .table-fixed thead,
 .table-fixed tbody,
@@ -24,7 +24,7 @@ clear: both;
 }
 .table-fixed tbody td,
 .table-fixed thead > tr > th {
-float: center-block;
+float: left;
 }
 
 
