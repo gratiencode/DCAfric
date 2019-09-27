@@ -260,7 +260,8 @@ public class VentesResource {
         cmd.setLibelle("Normal");
         cmd.setMethode("CASH");
         cmd.setNombreArticle(1);
-        cmd.setValide(true);        
+        cmd.setValide(true);  
+        
         cmd.setComment("No comment");
         cmdPK.setId(System.currentTimeMillis());
         cmdPK.setIdClient(kiosq);
@@ -268,14 +269,15 @@ public class VentesResource {
         cmdPK.setReference(reference);
         cmd.setCommandePK(cmdPK);
         vs.createCommande(cmd);
-        Vente v=new Vente();
-        v.setDate(Constants.Datetime.todayTime());
-        v.setDevise("USD"); 
-        VentePK vpk=new VentePK();
+       
+        V.setDate(Constants.Datetime.todayTime());
+        V.setDevise("USD"); 
+        VentePK vpk=V.getVentePK();
         vpk.setId((int) (Math.random() * 100001));
         vpk.setReference(reference);
-        vs.createVente(v);
-        return Response.ok(v).build();
+        V.setVentePK(vpk);
+        vs.createVente(V);
+        return Response.ok(V).build();
     }
     
     @GET
