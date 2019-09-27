@@ -81,7 +81,7 @@
                 var vente={"devise":idag.value,"mantant":montant.value3,"quantite":qte.value,"ventePK":{"idProduit":prod}};
                 console.log(data.client+" "+prod);
                 $.ajax({
-                    url: "http://127.0.0.1:8087/services/providing/ventes/vente_platform/cl/formulaire",
+                    url: "http://127.0.0.1:8087/services/providing/ventes/vbase/cl/formulaire",
                     type: "POST",
                     contentType: 'application/json',
                     dataType: "json", // expected format for response
