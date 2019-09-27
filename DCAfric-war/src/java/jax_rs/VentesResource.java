@@ -249,6 +249,7 @@ public class VentesResource {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
+    @Path("vbase/cl/formulaire")
     public Response createVenteForm(Vente V) {
         String agent=V.getDevise();
         String kiosq = ob.getObtenir(agent).getObtenirPK().getIdKiosq();
