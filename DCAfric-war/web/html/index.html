@@ -83,10 +83,12 @@
                 $.ajax({
                     url: "http://127.0.0.1:8087/services/providing/ventes/vente_platform/cl/formulaire",
                     type: "POST",
+                    contentType: 'application/json',
                     dataType: "json", // expected format for response
-                    data: vente,
+                    data: JSON.stringify(vente),
                     success: function (data) {
                         console.log(data.id);
+                        alert("vente ajoutee avec succes1");
                     }, 
 
                     error: function () {
