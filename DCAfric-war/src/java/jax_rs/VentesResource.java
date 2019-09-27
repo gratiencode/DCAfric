@@ -247,9 +247,10 @@ public class VentesResource {
     }
     
     @POST
-    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response createVenteForm(@FormParam("client") String agent, @FormParam("productId") String product, @FormParam("quantity") double quanite,@FormParam("montant") double amount) {
+    public Response createVenteForm(Vente V) {
+        String agent=V.getDevise();
         String kiosq = ob.getObtenir(agent).getObtenirPK().getIdKiosq();
         String reference=base_kiosque + "-" + ((int) (Math.random() * 100001));
         Commande cmd = new Commande();
@@ -268,12 +269,9 @@ public class VentesResource {
         vs.createCommande(cmd);
         Vente v=new Vente();
         v.setDate(Constants.Datetime.todayTime());
-        v.setDevise("USD");
-        v.setMantant(amount);
-        v.setQuantite(quanite);
+        v.setDevise("USD"); 
         VentePK vpk=new VentePK();
         vpk.setId((int) (Math.random() * 100001));
-        vpk.setIdProduit(product);
         vpk.setReference(reference);
         vs.createVente(v);
         return Response.ok(v).build();
