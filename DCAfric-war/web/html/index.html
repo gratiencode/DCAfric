@@ -78,7 +78,7 @@
             };
             function saveVente(idag,qte,montant) {
                 var prod=$("#SelectLm").val();
-                var vente={"devise":idag.value,"mantant":montant.value3,"quantite":qte.value,"ventePK":{"id":0,"idProduit":prod,"reference":"0000"}};
+                var vente={"devise":idag.value,"mantant":montant.value,"quantite":qte.value,"ventePK":{"id":0,"idProduit":prod,"reference":"0000"}};
                 console.log(vente.devise+" "+prod);
                 $.ajax({
                     url: "http://127.0.0.1:8087/services/providing/ventes/vbase/cl/formulaire",
