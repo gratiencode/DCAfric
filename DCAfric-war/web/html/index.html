@@ -78,16 +78,16 @@
             };
             function saveVente(idag,qte,montant) {
                 var prod=$("#SelectLm").val();
-                var data={"client": idag.value, "productId":prod,"quantity":qte.value,"montant":montant.value};
+                var vente={"devise":idag.value,"mantant":montant.value3,"quantite":qte.value,"ventePK":{"idProduit":prod}};
                 console.log(data.client+" "+prod);
                 $.ajax({
                     url: "http://127.0.0.1:8087/services/providing/ventes/vente_platform/cl/formulaire",
                     type: "POST",
                     dataType: "json", // expected format for response
-                    data: data,
+                    data: vente,
                     success: function (data) {
                         console.log(data.id);
-                    },
+                    }, 
 
                     error: function () {
                         console.trace();//called when there is an error
