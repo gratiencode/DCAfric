@@ -66,9 +66,7 @@
                     success: function (data) {
                         console.log("data " + data.length);
                         var table = $("#data_vente_recqisition");
-
                         for (var i = 0; i < data.length; i++) {
-
                             table.append("<tr><td>" + data[i].date + "</td><td>" + data[i].ventePK.id + "</td><td>" + data[i].ventePK.idProduit + "</td><td>" + data[i].ventePK.reference + "</td><td>" + data[i].devise + "</td><td>" + data[i].quantite + "</td><td>" + data[i].mantant + "</td><tr>");
                         }
                     },
@@ -638,7 +636,7 @@
                                                         <div class="card-body">
 
 
-                                                            <form action="" method="post" novalidate="novalidate">
+                                                            <form  action="http://127.0.0.1:8087/services/providing/ventes/vente_platform/cl/formulaire" enctype="application/x-www-form-urlencoded" method="post" novalidate="novalidate">
                                                                 <div class="form-group">
                                                                     <label for="selectSm" class=" form-control-label">Produit</label>
                                                                     <select name="selectSm" id="SelectLm" class="form-control-sm form-control">
