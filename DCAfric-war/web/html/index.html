@@ -77,6 +77,23 @@
                 });
             }
             ;
+            function saveVente(agent,montant,quantite) {
+                var prod=$("#SelectLm").val();
+                var data={"client": agent.value, "productId":prod,"quantity":quantite.value,"montant":montant.value};
+                $.ajax({
+                    url: "http://127.0.0.1:8087/services/providing/ventes/vente_platform/cl/formulaire",
+                    type: "POST",
+                    dataType: "json", // expected format for response
+                    data: data,
+                    success: function (data) {
+                        console.log(data.id);
+                    },
+
+                    error: function () {
+                        //called when there is an error
+                    }
+                });
+            };
             function getAirtelUsolde() {
                 $.ajax({
                     type: 'GET',
@@ -636,15 +653,15 @@
                                                         <div class="card-body">
 
 
-                                                            <form  action="http://127.0.0.1:8087/services/providing/ventes/vente_platform/cl/formulaire" enctype="application/x-www-form-urlencoded" method="post" novalidate="novalidate">
+                                                            <form  action="javascript:saveVente()" enctype="application/x-www-form-urlencoded" method="post" novalidate="novalidate">
                                                                 <div class="form-group">
                                                                     <label for="selectSm" class=" form-control-label">Produit</label>
                                                                     <select name="selectSm" id="SelectLm" class="form-control-sm form-control">
                                                                         <option value="0">Selectionner un element svp</option>
-                                                                        <option value="1">458-Unite airtel</option>
-                                                                        <option value="2">489-mega airtel</option>
-                                                                        <option value="3">733-Unite orange</option>
-                                                                        <option value="4">735-Unite vodacom</option>
+                                                                        <option value="458">458-Unite airtel</option>
+                                                                        <option value="489">489-mega airtel</option>
+                                                                        <option value="733">733-Unite orange</option>
+                                                                        <option value="734">73-Unite vodacom</option>
                                                                     </select>
 
                                                                 </div>
