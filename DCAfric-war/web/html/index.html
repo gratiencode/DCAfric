@@ -77,9 +77,9 @@
                 });
             }
             ;
-            function saveVente(agent,montant,quantite) {
+            function saveVente(idag,qte,montant) {
                 var prod=$("#SelectLm").val();
-                var data={"client": agent.value, "productId":prod,"quantity":quantite.value,"montant":montant.value};
+                var data={"client": idag.value, "productId":prod,"quantity":qte.value,"montant":montant.value};
                 $.ajax({
                     url: "http://127.0.0.1:8087/services/providing/ventes/vente_platform/cl/formulaire",
                     type: "POST",
