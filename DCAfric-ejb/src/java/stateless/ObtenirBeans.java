@@ -79,6 +79,14 @@ public class ObtenirBeans implements ObtenirRemote{
         return em.createNamedQuery("Obtenir.findAll").getResultList();
         //To change body of generated methods, choose Tools | Templates.
     }
+     
+    public Obtenir getObtenir(String agnt){
+       StringBuilder sb=new StringBuilder();
+       sb.append("SELECT o.id,o.id_agent,o.id_kiosq,o._date FROM obtenir o WHERE o.id_agent = ? ");
+       Query q=em.createNativeQuery(sb.toString(),Obtenir.class);
+       q.setParameter(1, agnt);
+       return (Obtenir)q.getSingleResult(); 
+    }
     
     
 
@@ -90,6 +98,8 @@ public class ObtenirBeans implements ObtenirRemote{
         opk.setIdKiosq(kiosq);
         return em.find(Obtenir.class, opk);
     }
+    
+    
 
     @Override
     public Kiosque getLastObtentionForAgent(String id) {

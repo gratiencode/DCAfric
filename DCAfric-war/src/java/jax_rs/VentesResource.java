@@ -13,8 +13,11 @@ import com.districom.endeleya.districomservices.tools.Promotion;
 import com.fazecast.jSerialComm.SerialPort;
 import entities.Client;
 import entities.Commande;
+import entities.CommandePK;
+import entities.Kiosque;
 import entities.Produit;
 import entities.Vente;
+import entities.VentePK;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.time.LocalDateTime;
@@ -30,6 +33,7 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.FormParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.PathParam;
@@ -44,6 +48,7 @@ import jax_binding.ProduitVenduBinder;
 import jax_binding.PromotionBinder;
 import jax_binding.VenteBinder;
 import org.jboss.logging.Logger;
+import stateless.ObtenirBeans;
 import stateless.VenteBeans;
 import util.Constants;
 import util.GsmStringset;
@@ -58,30 +63,35 @@ import util.USSDCommand;
 @Path("/ventes")
 @Stateless
 public class VentesResource {
-
+    
     @Context
     private UriInfo context;
     @EJB
     VenteService vs;
     @EJB
     ProduitService ps;
-
+    
     @EJB
     ClientService svc;
-
+    
+    @EJB
+    ObtenirBeans ob;
+    
     @EJB
     VenteBeans ventesRepport;
-
+    
     @EJB
     ParametreService params;
-
+    
     private double unite_per_mega_orange = 0;
     private double unite_per_mega_vodacom = 0;
-
+    private String base_kiosque;
+    
     @PostConstruct
     public void init() {
         unite_per_mega_orange = Double.parseDouble(params.getParametre("UNITE_PAR_MEGA_ORANGE").getValeur());
         unite_per_mega_vodacom = Double.parseDouble(params.getParametre("UNITE_PAR_MEGA_VODACOM").getValeur());
+        base_kiosque = params.getParametre("BASE_KIOSQ").getValeur();
     }
 
     /**
@@ -95,7 +105,7 @@ public class VentesResource {
     public List<ProduitVendu> getJsons(@PathParam("kiosk") String ksk, @PathParam("date1") String date1, @PathParam("date2") String date2) {
         return new ProduitVenduBinder(vs.getVentes(ksk, date1, date2));
     }
-
+    
     @GET
     @Produces("text/plain")
     @Path("instant/solde/for/{produit}/{kiosq}")
@@ -119,21 +129,21 @@ public class VentesResource {
             return achat - vente;
         }
     }
-
+    
     @GET
     @Produces("application/json")
     @Path("billing/ventes/commands/interval/{kiosk}/{date1}/{date2}")
     public List<Commande> getCommandes(@PathParam("kiosk") String idKiosk, @PathParam("date1") String date1, @PathParam("date2") String date2) {
         return new CommandBinder(vs.getCommands(idKiosk, date1, date2));
     }
-
+    
     @GET
     @Produces(MediaType.TEXT_PLAIN)
     @Path("inventaire/pour/{idKiosque}/{idProduit}")
     public Response getSums(@PathParam("idKiosque") String idKiosque, @PathParam("idProduit") String idPro) {
         return Response.ok(vs.getSumVendu(idKiosque, idPro)).build();
     }
-
+    
     @GET
     @Produces("application/json")
     @Path("commands/from/reference/{reference}/kiosk_id/{idKiosque}")
@@ -141,7 +151,7 @@ public class VentesResource {
         Logger.getLogger(this.getClass().getName()).info(reference + " =mm= " + idKiosque);
         return vs.loadVentesForCommande(reference, idKiosque);
     }
-
+    
     @POST
     @Produces("application/json")
     @Path("customers/input/vente/")
@@ -159,7 +169,7 @@ public class VentesResource {
         pv.setNomProduit(p.getNomProduit());
         return Response.ok(pv).build();
     }
-
+    
     @GET
     @Path("rapport/view/parpage/details/toutvente/{reference}/{dateDebut}/{dateFin}")
     @Produces(MediaType.APPLICATION_JSON)
@@ -167,7 +177,7 @@ public class VentesResource {
         List<Vente> ventes = ventesRepport.getVenteForKiosqueAllDetails(kiosque, date1, date2);
         return new VenteBinder(ventes);
     }
-
+    
     @GET
     @Path("rapport/view/parpage/groupe/parproduit/{reference}/{dateDebut}/{dateFin}")
     @Produces(MediaType.APPLICATION_JSON)
@@ -180,10 +190,10 @@ public class VentesResource {
     @Path("rapport/view/allsales/for/{reference}")
     @Produces(MediaType.APPLICATION_JSON)
     public List<Vente> getAllVentesWithKiosq(@PathParam("reference") String kiosque) {
-        List<Vente> ventes =vs.getAllVentes(kiosque);
+        List<Vente> ventes = vs.getAllVentes(kiosque);
         return new VenteBinder(ventes);
     }
-
+    
     @GET
     @Path("rapport/view/sum/de/toutvente/en/{devise}/{reference}/{dateDebut}/{dateFin}")
     @Produces(MediaType.TEXT_PLAIN)
@@ -191,7 +201,7 @@ public class VentesResource {
         Double d = ventesRepport.getSumVenteForKiosqueOnPeriod(kiosque, devise, date1, date2);
         return Response.ok(d + " " + devise).build();
     }
-
+    
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
@@ -212,7 +222,7 @@ public class VentesResource {
         }
         return Response.ok(cmde).build();
     }
-
+    
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
@@ -235,7 +245,41 @@ public class VentesResource {
             return Response.status(Response.Status.NO_CONTENT).build();
         }
     }
-
+    
+    @POST
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("vente_platform/form/formulaire")
+    public Response createVenteForm(@FormParam("client") String agent, @FormParam("productId") String product, @FormParam("quantity") double quanite,@FormParam("montant") double amount) {
+        String kiosq = ob.getObtenir(agent).getObtenirPK().getIdKiosq();
+        String reference=base_kiosque + "-" + ((int) (Math.random() * 100001));
+        Commande cmd = new Commande();
+        CommandePK cmdPK = new CommandePK();
+        cmd.setDate(Constants.Datetime.todayTime());
+        cmd.setLibelle("Normal");
+        cmd.setMethode("CASH");
+        cmd.setNombreArticle(1);
+        cmd.setValide(true);        
+        cmd.setComment("No comment");
+        cmdPK.setId(System.currentTimeMillis());
+        cmdPK.setIdClient(kiosq);
+        cmdPK.setIdKiosque(base_kiosque);
+        cmdPK.setReference(reference);
+        cmd.setCommandePK(cmdPK);
+        vs.createCommande(cmd);
+        Vente v=new Vente();
+        v.setDate(Constants.Datetime.todayTime());
+        v.setDevise("USD");
+        v.setMantant(amount);
+        v.setQuantite(quanite);
+        VentePK vpk=new VentePK();
+        vpk.setId((int) (Math.random() * 100001));
+        vpk.setIdProduit(product);
+        vpk.setReference(reference);
+        vs.createVente(v);
+        return Response.ok(v).build();
+    }
+    
     @GET
     @Produces("application/json")
     @Path("achats/promotion/clients/{phone}")
@@ -266,7 +310,7 @@ public class VentesResource {
         }
         return new PromotionBinder(lp);
     }
-
+    
     @POST
     @Produces("application/json")
     @Consumes("application/json")
@@ -285,14 +329,14 @@ public class VentesResource {
         d1.format(df);
         Date d = java.util.Date.from(d1.atZone(ZoneId.systemDefault()).toInstant());
         com.setDate(d);
-
+        
         for (SerialPort spi : sports) {
             s = spi.getDescriptivePortName();
             product = product.toUpperCase();
             spi.setComPortParameters(9600, 8, 1, 0);
             String result = executeAT(spi, "at+cfun=1", 1000);
             if (result.contains("OK")) {
-
+                
                 if (s.contains("UI AT") || s.contains("Modem #")) {
                     String rst = executeAT(spi, "at+cops?", 1000);
                     Logger.getLogger(this.getClass().getName()).info("TE found : Operator > " + rst);
@@ -300,14 +344,14 @@ public class VentesResource {
                     executeAT(spi, "at+cmee=2", 1000);
                     executeAT(spi, "at+cscs=\"ira\"", 1000);
                     executeAT(spi, "at+cusd=1", 1000);
-
+                    
                     if (((rst.contains("63002") || rst.toUpperCase().contains(Constants.AIRTEL) || rst.toUpperCase().contains("CELTEL DRC") || rst.toUpperCase().contains("ZAIN")) && reso.toUpperCase().contains(Constants.AIRTEL))) {
                         Logger.getLogger(this.getClass().getName()).info(" GSMSH#ai> " + code);
-
+                        
                         String cmd;
                         switch (product) {
                             case Constants.UNITE:
-
+                                
                                 String c = "at+cusd=1,\"" + GsmStringset.gsmToStringDecoded(code) + "\",15";
                                 cmd = executeAT(spi, c, Constants.TIMEOUT_USSD);
                                 String sss = cmd.replaceAll("\\s|\\r\\n|\\r|\\n", "");
@@ -325,12 +369,12 @@ public class VentesResource {
                                     u.setUssdCode(code);
                                     u.setResult(cmd);
                                     return Response.ok(u).build();
-
+                                    
                                 }
-
+                                
                                 break;
                             case Constants.MEGA:
-
+                                
                                 String cl = "at+cusd=1,\"" + GsmStringset.gsmToStringDecoded(code) + "\",15";
                                 cmd = executeAT(spi, cl, Constants.TIMEOUT_USSD);
                                 String sss1 = cmd.replaceAll("\\s|\\r\\n|\\r|\\n", "");
@@ -349,18 +393,18 @@ public class VentesResource {
                                     u.setUssdCode(code);
                                     u.setResult(cmd);
                                     return Response.ok(u).build();
-
+                                    
                                 }
-
+                                
                                 break;
                         }
                     } else if (((rst.contains("63089") || rst.contains("63086") || rst.toUpperCase().contains(Constants.ORANGE) || rst.contains("CCT") || rst.toUpperCase().contains("TIGO")) && reso.toUpperCase().contains(Constants.ORANGE))) {
                         Logger.getLogger(this.getClass().getName()).info(" GSMSH@or> " + GsmStringset.stringToGsmEncoded(code));
-
+                        
                         String cmd;
                         switch (product) {
                             case Constants.UNITE:
-
+                                
                                 String decoded = GsmStringset.gsmToStringDecoded(code);
                                 cmd = executeAT(spi, "at+cusd=1,\"" + decoded + "\",15", Constants.TIMEOUT_USSD);
                                 Logger.getLogger(this.getClass().getName()).info(" GSMSH#> CODE OR1" + code + "\nresult : " + cmd + " decoded " + decoded);
@@ -381,16 +425,16 @@ public class VentesResource {
                                     u.setUssdCode(code);
                                     u.setResult(cmd);
                                     return Response.ok(u).build();
-
+                                    
                                 }
 
                                 //insertion bd puis return result to client
                                 break;
                             case Constants.MEGA:
-
+                                
                                 String tarif = u.getResult();
                                 if (tarif.contains("Home Box")) {
-
+                                    
                                     String ussd[] = (GsmStringset.gsmToStringDecoded(code)).split("/");
                                     String ss = GsmStringset.gsmToStringDecoded("002A0031003300310023");
                                     cmd = executeAT(spi, "at+cusd=1,\"" + ss + "\",15", Constants.TIMEOUT_USSD);
@@ -440,7 +484,7 @@ public class VentesResource {
                                         u.setUssdCode(code);
                                         u.setResult(cmd);
                                         return Response.ok(u).build();
-
+                                        
                                     }
                                 } else if (tarif.contains("Bundle")) {
                                     //"*134*" + phone.getText().toString() + "*" + qte.getText().toString() + "*" + pswd.getText().toString().toString() + "#"
@@ -457,7 +501,7 @@ public class VentesResource {
                                     Logger.getLogger(this.getClass().getName()).info(" GSMSH#> CODE " + code + "\nresult : " + cmd);
                                     cmd = executeAT(spi, "at+cusd=1,\"1\",15", Constants.TIMEOUT_USSD);
                                     Logger.getLogger(this.getClass().getName()).info(" GSMSH#> CODE " + code + "\nresult : " + cmd);
-
+                                    
                                     switch (ussd[2]) {
                                         case "50":
                                             cmd = executeAT(spi, "at+cusd=1,\"1\",15", Constants.TIMEOUT_USSD);
@@ -487,18 +531,18 @@ public class VentesResource {
                                         u.setUssdCode(code);
                                         u.setResult(cmd);
                                         return Response.ok(u).build();
-
+                                        
                                     }
                                 }
                         }
                         break;
-
+                        
                     } else if (((rst.contains("63001") || rst.toUpperCase().contains(Constants.VODACOM)) && reso.toUpperCase().contains(Constants.VODACOM))) {
                         Logger.getLogger(this.getClass().getName()).info(" GSMSH$vo> " + code);
                         String cmd;
                         switch (product) {
                             case Constants.UNITE:
-
+                                
                                 cmd = executeAT(spi, "at+cusd=1,\"" + GsmStringset.gsmToStringDecoded(code) + "\",15", Constants.TIMEOUT_USSD);
                                 Logger.getLogger(this.getClass().getName()).info(" GSMSH$> CODE " + code + "\nresult : " + cmd);
                                 cmd = executeAT(spi, "at+cusd=1,\"1\",15", (Constants.TIMEOUT_USSD - 1000));
@@ -519,10 +563,10 @@ public class VentesResource {
                                     u.setResult(cmd);
                                     return Response.ok(u).build();
                                 }
-
+                                
                                 break;
                             case Constants.MEGA:
-
+                                
                                 String ussd[] = (GsmStringset.gsmToStringDecoded(code)).split("/");
                                 String ss = GsmStringset.gsmToStringDecoded("002A00310031003100370023");
                                 executeAT(spi, "at+cusd=1,\"" + ss + "\",15", 600);
@@ -560,19 +604,19 @@ public class VentesResource {
                                     u.setUssdCode(code);
                                     u.setResult(cmd);
                                     return Response.ok(u).build();
-
+                                    
                                 }
-
+                                
                                 break;
                         }
                     }
                 }
             }
         }
-
+        
         return Response.status(Response.Status.NO_CONTENT).build();
     }
-
+    
     private String executeAT(SerialPort spi, String code, int timeout) {
         spi.openPort();
         try {
@@ -585,7 +629,7 @@ public class VentesResource {
         } catch (IOException ex) {
             java.util.logging.Logger.getLogger(BroadCaster.class.getName()).log(Level.SEVERE, null, ex);
         }
-
+        
         try {
             Thread.sleep(timeout);
         } catch (InterruptedException ex) {
@@ -612,5 +656,5 @@ public class VentesResource {
     public VenteResource getVenteResource(@PathParam("name") int name, @PathParam("prod") String prod, @PathParam("ref") String ref) {
         return VenteResource.getInstance(vs, name, ref, prod);
     }
-
+    
 }
