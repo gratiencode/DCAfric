@@ -653,7 +653,7 @@
                                                         <div class="card-body">
 
 
-                                                            <form  action="javascript:saveVente()" enctype="application/x-www-form-urlencoded" method="post" novalidate="novalidate">
+                                                            <form  action="javascript:saveVente(idag,qte,montant)" method="post" novalidate="novalidate">
                                                                 <div class="form-group">
                                                                     <label for="selectSm" class=" form-control-label">Produit</label>
                                                                     <select name="selectSm" id="SelectLm" class="form-control-sm form-control">
@@ -667,27 +667,27 @@
                                                                 </div>
                                                                 <div class="form-group">
                                                                     <label for="cc-payment" class="control-label mb-1">Identifiant ou Numero de telephone</label>
-                                                                    <input id="cc-payment" name="cc-payment" type="text" class="form-control" aria-required="true" aria-invalid="false" placeholder="Identifiant ou telephone">
+                                                                    <input id="cc-payment" name="idag" type="text" class="form-control" aria-required="true" aria-invalid="false" placeholder="Identifiant ou telephone">
                                                                 </div>
                                                                 <div class="row">
                                                                     <div class="col-4">
                                                                         <div class="form-group">
                                                                             <label for="cc-exp" class="control-label mb-1">Quantite</label>
-                                                                            <input id="x_card_code" name="x_card_code" type="tel" class="form-control cc-cvc" value="" data-val="true" data-val-required="Please enter the security code" data-val-cc-cvc="Please enter a valid security code" autocomplete="off">
+                                                                            <input id="x_card_code" name="qte" type="tel" class="form-control cc-cvc" value="" data-val="true" data-val-required="Please enter the security code" data-val-cc-cvc="Please enter a valid security code" autocomplete="off">
 
                                                                         </div>
                                                                     </div>
                                                                     <div class="col-4">
                                                                         <label for="x_card_code" class="control-label mb-1">P.U.</label>
                                                                         <div class="input-group">
-                                                                            <input id="x_card_code" name="x_card_code" type="tel" class="form-control cc-cvc" value="" data-val="true" data-val-required="Please enter the security code" data-val-cc-cvc="Please enter a valid security code" autocomplete="off">
+                                                                            <input id="x_card_code" name="pu" type="tel" class="form-control cc-cvc" value="" data-val="true" data-val-required="Please enter the security code" data-val-cc-cvc="Please enter a valid security code" autocomplete="off">
 
                                                                         </div>
                                                                     </div>
                                                                     <div class="col-4">
                                                                         <label for="x_card_code" class="control-label mb-1">Total a payer</label>
                                                                         <div class="input-group">
-                                                                            <input id="x_card_code" name="x_card_code" type="tel" class="form-control cc-cvc" value="" data-val="true" data-val-required="Please enter the security code" data-val-cc-cvc="Please enter a valid security code" autocomplete="off">
+                                                                            <input id="x_card_code" name="montant" type="tel" class="form-control cc-cvc" value="" data-val="true" data-val-required="Please enter the security code" data-val-cc-cvc="Please enter a valid security code" autocomplete="off">
 
                                                                         </div>
                                                                     </div>
