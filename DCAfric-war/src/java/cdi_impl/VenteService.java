@@ -5,7 +5,16 @@
  */
 package cdi_impl;
 
+import entities.Agents;
+import entities.Agents_;
 import entities.Commande;
+import entities.CommandePK_;
+import entities.Commande_;
+import entities.Kiosque;
+import entities.Kiosque_;
+import entities.Obtenir;
+import entities.ObtenirPK_;
+import entities.Obtenir_;
 import entities.Produit;
 import entities.Recquisitionner;
 import entities.RecquisitionnerPK_;
@@ -36,6 +45,8 @@ import javax.persistence.Tuple;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Expression;
+import javax.persistence.criteria.ParameterExpression;
 import javax.persistence.criteria.Path;
 import javax.persistence.criteria.Root;
 import javax.validation.ConstraintViolation;
@@ -44,6 +55,7 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
 import util.Constants;
 import util.ProduitVendu;
+import util.TopClient;
 
 /**
  *
@@ -95,14 +107,14 @@ public class VenteService {
         }
         return cmd;
     }
-    
-    public List<Vente> getAllVentes(String kiosk){
+
+    public List<Vente> getAllVentes(String kiosk) {
         StringBuilder sb = new StringBuilder();
         sb.append("SELECT c._date, c.id, c.id_produit, c.devise, c.mantant, c.quantite, c.reference ");
         sb.append("FROM vente c ");
         sb.append("WHERE c.reference LIKE ? ");
         Query query = em.createNativeQuery(sb.toString(), Vente.class);
-        query.setParameter(1, kiosk+"%");
+        query.setParameter(1, kiosk + "%");
         return query.getResultList();
     }
 
@@ -233,6 +245,51 @@ public class VenteService {
         return t;
     }
 
+    public List<TopClient> gettop10() {
+        List<TopClient> top10 = new ArrayList<>();
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<Tuple> cq = cb.createQuery(Tuple.class);
+        Root<Vente> rvente = cq.from(Vente.class);
+        Root<Commande> rcommande = cq.from(Commande.class);
+        Root<Kiosque> rkiosq = cq.from(Kiosque.class);
+        Root<Agents> rAgent = cq.from(Agents.class);
+        Root<Obtenir> rObtenir = cq.from(Obtenir.class);
+
+        Path<String> kidKiosP = rkiosq.get(Kiosque_.id);
+        Path<String> oidAgP = rObtenir.get(Obtenir_.obtenirPK).get(ObtenirPK_.idAgent);
+        Path<String> oidKiosP = rObtenir.get(Obtenir_.obtenirPK).get(ObtenirPK_.idKiosq);
+
+        Path<String> agNomP = rAgent.get(Agents_.nom);
+        Path<String> agPrenomP = rAgent.get(Agents_.prenom);
+        Path<String> agID = rAgent.get(Agents_.id);
+        Path<String> cidKiosP = rcommande.get(Commande_.commandePK).get(CommandePK_.idClient);
+
+        Path<String> vrefer = rvente.get(Vente_.ventePK).get(VentePK_.reference);
+        Path<String> crefer = rcommande.get(Commande_.commandePK).get(CommandePK_.reference);
+        Expression exp = cb.count(rcommande.get("id_client"));
+
+        cq.multiselect(exp.alias("freq"), cb.max(rvente.get("quantite")).alias("somme"), cidKiosP, agID, agPrenomP, agNomP);
+
+        cq.where(cb.and(cb.equal(vrefer, crefer), cb.equal(cidKiosP, kidKiosP), cb.equal(agID, oidAgP), cb.equal(oidKiosP, cidKiosP)));
+        cq.groupBy(rcommande.get(Commande_.commandePK).get(CommandePK_.idClient), rAgent.get(Agents_.id));
+        cq.orderBy(cb.desc(exp));
+
+        TypedQuery<Tuple> typedQuery = em.createQuery(cq);
+        typedQuery.setMaxResults(10);
+        for (Tuple t : typedQuery.getResultList()) {
+            TopClient topClt = new TopClient();
+            topClt.setFrequence(t.get("freq", Integer.class));
+            topClt.setId(t.get(agID));
+            topClt.setKiosque(t.get(cidKiosP));
+            topClt.setNom(t.get(agNomP));
+            topClt.setPrenom(t.get(agPrenomP));
+            topClt.setQuantite(t.get("somme", Double.class));
+            top10.add(topClt);
+        }
+        return top10;
+
+    }
+
     public Double getSommeQuantVenteVendu(String idProduit) {
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<Double> cq = cb.createQuery(Double.class);
@@ -266,8 +323,6 @@ public class VenteService {
         Double t = em.createQuery(cq).getSingleResult();
         return t;
     }
-    
-   
 
     public double getSumVendu(String idKiosque, String idProduit) {
         Calendar c = Calendar.getInstance();

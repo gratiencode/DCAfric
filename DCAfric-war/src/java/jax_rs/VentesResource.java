@@ -32,6 +32,7 @@ import javax.annotation.PostConstruct;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import javax.persistence.criteria.CriteriaBuilder;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.core.Context;
@@ -46,6 +47,7 @@ import javax.ws.rs.core.Response;
 import jax_binding.CommandBinder;
 import jax_binding.ProduitVenduBinder;
 import jax_binding.PromotionBinder;
+import jax_binding.TopClientBinder;
 import jax_binding.VenteBinder;
 import org.jboss.logging.Logger;
 import stateless.ObtenirBeans;
@@ -53,6 +55,7 @@ import stateless.VenteBeans;
 import util.Constants;
 import util.GsmStringset;
 import util.ProduitVendu;
+import util.TopClient;
 import util.USSDCommand;
 
 /**
@@ -309,6 +312,15 @@ public class VentesResource {
             lp.add(p);
         }
         return new PromotionBinder(lp);
+    }
+    
+    
+    @GET
+    @Produces("application/json")
+    @Path("top10/kiosque")
+    public List<TopClient> getTop10Kiosque(){
+        //select count(*) as freq , max(quantite) somme, commande.id_client FROM vente,commande where commande.reference = vente.reference group by commande.id_client  order by freq desc limit 10
+        return new TopClientBinder(vs.gettop10()); 
     }
     
     @POST
